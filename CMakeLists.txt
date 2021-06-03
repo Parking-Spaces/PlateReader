@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.19)
 project(PlateReader)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 include(FetchContent)
 # Another way is to use CMake's FetchContent module to clone gRPC at
@@ -15,7 +15,7 @@ FetchContent_Declare(
         # v1.25.0, v1.26.0 etc..
         # For the purpose of testing, we override the tag used to the commit
         # that's currently under test.
-        GIT_TAG v1.37.1)
+        GIT_TAG v1.38.0)
 
 set(FETCHCONTENT_QUIET OFF)
 FetchContent_MakeAvailable(grpc)
@@ -39,7 +39,7 @@ get_filename_component(hw_proto_path "${hw_proto}" PATH)
 # Generated sources
 set(hw_proto_srcs "${CMAKE_CURRENT_BINARY_DIR}/parkingspaces.pb.cc")
 set(hw_proto_hdrs "${CMAKE_CURRENT_BINARY_DIR}/parkingspaces.pb.h")
-set(hw_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/parkingspaces.grpc.pb.cc" platereader.cpp platereader.h)
+set(hw_grpc_srcs "${CMAKE_CURRENT_BINARY_DIR}/parkingspaces.grpc.pb.cc")
 set(hw_grpc_hdrs "${CMAKE_CURRENT_BINARY_DIR}/parkingspaces.grpc.pb.h")
 
 add_custom_command(
@@ -55,9 +55,14 @@ add_custom_command(
 # Include generated *.pb.h files
 include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 
-add_executable(PlateReader main.cpp ${hw_proto_srcs}  ${hw_grpc_srcs})
+# hw_grpc_proto
+add_library(hw_grpc_proto
+        ${hw_grpc_srcs}
+        ${hw_grpc_hdrs}
+        ${hw_proto_srcs}
+        ${hw_proto_hdrs})
 
-target_link_libraries(PlateReader
-        ${_REFLECTION}
-        ${_GRPC_GRPCPP}
-        ${_PROTOBUF_LIBPROTOBUF})
+add_executable(PlateReader main.cpp platereader.cpp server_conn.cpp
+         ${hw_proto_srcs}  ${hw_grpc_srcs})
+
+target_link_libraries(PlateReader openalpr ${_REFLECTION} ${_GRPC_GRPCPP} ${_PROTOBUF_LIBPROTOBUF})

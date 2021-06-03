@@ -13,6 +13,7 @@ public:
 public:
     std::string readPlateFromFile(const std::string &);
 
+    std::string takePictureAndRead(const int &spaceID );
 };
 
 #endif //PLATEREADER_PLATEREADER_H

@@ -4,5 +4,7 @@ First install openALPR by following the tutorial found in: (If you are using ano
 https://github.com/openalpr/openalpr/wiki/Compilation-instructions-(Ubuntu-Linux)
 
 $ mkdir cmake-build-debug && cd cmake-build-debug
+$ mkdir pictures
+$ cp ../take_picture.sh ./take_picture.sh
 $ cmake ..
 $ make
