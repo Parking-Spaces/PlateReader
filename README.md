@@ -7,12 +7,19 @@ After that use the following commands:
 
 ```bash
 $ mkdir cmake-build-debug && cd cmake-build-debug
+```
 
+```bash
 $ mkdir pictures
+```
 
+```bash
 $ cp ../take_picture.sh ./take_picture.sh
-
+```
+```bash
 $ cmake ..
+```
 
+```bash
 $ make
 ```
