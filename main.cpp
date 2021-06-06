@@ -1,7 +1,9 @@
 #include <iostream>
 #include <memory>
 #include "platereader.h"
-//#include "server_conn.h"
+#include "server_conn.h"
+
+#define SPACE_ID 1
 
 int main() {
 
@@ -9,11 +11,13 @@ int main() {
 
     auto reader = std::make_shared<PlateReader>();
 
-    //auto conn = std::make_shared<ServerConnection>(reader, 1);
+    auto conn = std::make_shared<ServerConnection>(reader, SPACE_ID);
 
-    std::cout << "Plate: " << reader->takePictureAndRead(1) << std::endl;
+//    std::cout << "Plate: " << reader->takePictureAndRead(SPACE_ID) << std::endl;
 
-    //conn->connectToServer();
+    while (true) {
+        conn->connectToServer();
+    }
 
     std::cout << "Hello, World!" << std::endl;
     return 0;

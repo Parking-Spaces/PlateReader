@@ -38,6 +38,8 @@ void ServerConnection::registerReader() {
 
     while (readerWriter->Read(&req)) {
 
+        std::cout << "Received request for plate reader " << req.spaceid() << std::endl;
+
         std::string plate = this->reader->takePictureAndRead(req.spaceid());
 
         result.set_spaceid(req.spaceid());
